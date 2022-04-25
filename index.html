@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>cropit</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"
+            integrity="sha512-Gs+PsXsGkmr+15rqObPJbenQ2wB3qYvTHuJO6YJzPe/dTLvhy0fmae2BcnaozxDo5iaF8emzmCZWbQ1XXiX2Ig=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css"
+            integrity="sha512-2eMmukTZtvwlfQoG8ztapwAH5fXaQBzaMqdljLopRSA0i6YKM8kBAOrSSykxu9NN9HrtD45lIqfONLII2AFL/Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link rel="stylesheet" href="./style.scss" />
+    </head>
+
+    <body>
+        <div class="demo"></div>
+        <div>
+            <button id="button-save">Lưu ảnh</button>
+            <button class="vanilla-rotate" id="button-left" data-deg="90">
+                quay trai
+            </button>
+            <button class="vanilla-rotate" id="button-right" data-deg="-90">
+                quay phai
+            </button>
+        </div>
+
+        <img id="preview" />
+        <script>
+            $('.demo').croppie({
+                url: 'https://foliotek.github.io/Croppie/demo/demo-1.jpg',
+                viewport: {
+                    width: 400,
+                    height: 400,
+                    type: 'circle',
+                },
+                enableOrientation: true,
+            });
+
+            $('#button-save').click(() => {
+                $('.demo')
+                    .croppie('result', 'blob')
+                    .then(function (blob) {
+                        const src = URL.createObjectURL(blob, {
+                            oneTimeOnly: true,
+                        });
+                        console.log({ src, blob });
+                        $('#preview').attr('src', src);
+                    });
+            });
+
+            $('.vanilla-rotate').on('click', function (ev) {
+                $('.demo').croppie('rotate', parseInt($(this).data('deg')));
+            });
+        </script>
+    </body>
+</html>
